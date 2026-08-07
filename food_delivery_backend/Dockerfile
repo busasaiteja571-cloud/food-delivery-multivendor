@@ -1,5 +1,5 @@
 # Backend Dockerfile for Spring Boot API (uses official Maven builder)
-FROM maven:3.9.6-jdk-21 AS build
+FROM maven:3.9.6-eclipse-temurin-21 AS build
 WORKDIR /workspace
 
 # copy only pom first for utilising Docker layer caching
