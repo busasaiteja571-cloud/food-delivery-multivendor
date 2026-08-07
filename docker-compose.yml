@@ -1,0 +1,41 @@
+version: '3.9'
+services:
+  db:
+    image: mysql:8.1
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: food_delivery_db
+      MYSQL_USER: food
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: rootpassword
+    volumes:
+      - db-data:/var/lib/mysql
+    ports:
+      - '3306:3306'
+
+  backend:
+    build:
+      context: ./food_delivery_backend
+      dockerfile: Dockerfile
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/food_delivery_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: food
+      SPRING_DATASOURCE_PASSWORD: password
+      JWT_SECRET: changeme1234567890changeme12345678
+      FRONTEND_URL: http://localhost:4173
+    depends_on:
+      - db
+    ports:
+      - '8080:8080'
+
+  frontend:
+    build:
+      context: ./food-delivery-frontend
+      dockerfile: Dockerfile
+    ports:
+      - '4173:80'
+    environment:
+      VITE_API_URL: http://localhost:8080/api
+
+volumes:
+  db-data:

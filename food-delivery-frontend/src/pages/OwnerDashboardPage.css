@@ -1,0 +1,87 @@
+.dashboard-page {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.create-restaurant-form,
+.add-item-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-top: 1rem;
+}
+
+.create-restaurant-form input,
+.create-restaurant-form textarea,
+.add-item-form input {
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+.create-restaurant-form button,
+.add-item-form button {
+  padding: 0.6rem;
+  background-color: #1a1a1a;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.restaurant-summary-card {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.status-badge.active { background: #eafaf0; color: #1e824c; }
+.status-badge.inactive { background: #fdecea; color: #c0392b; }
+
+.owner-menu-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+.owner-menu-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 1rem;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+.toggle-status-btn {
+  margin-top: 0.75rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid #ccc;
+  background: white;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.owner-menu-row .available { color: #1e824c; }
+.owner-menu-row .unavailable { color: #999; }

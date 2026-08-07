@@ -1,0 +1,40 @@
+# Root gitignore for full-stack multi-vendor food delivery repo
+
+# Java / Maven
+**/target/
+**/.mvn/
+*.class
+*.jar
+*.war
+*.ear
+*.log
+*.db
+*.h2.db
+
+# Node / frontend
+**/node_modules/
+**/dist/
+**/.vite/
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+.eslintcache
+
+# ENV / secrets
+*.env
+*.env.*
+!.env.example
+
+# IDE
+.vscode/
+.idea/
+*.iml
+*.ipr
+*.iws
+*.sw?
+
+# OS
+.DS_Store
+Thumbs.db
+
+docker-compose.override.yml

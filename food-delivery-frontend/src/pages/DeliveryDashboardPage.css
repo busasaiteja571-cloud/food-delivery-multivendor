@@ -1,0 +1,55 @@
+.delivery-page {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.delivery-page section {
+  margin-bottom: 2rem;
+}
+
+.delivery-page h2 {
+  font-size: 1.1rem;
+  margin-bottom: 0.75rem;
+}
+
+.order-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.order-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+}
+
+.order-card h3 {
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.order-card p {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.order-total {
+  font-weight: 600;
+  color: #1a1a1a !important;
+}
+
+.order-card button {
+  padding: 0.5rem 1rem;
+  background-color: #1a1a1a;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  white-space: nowrap;
+}
