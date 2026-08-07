@@ -1,10 +1,14 @@
-# Backend Dockerfile for Spring Boot API
-FROM eclipse-temurin:21-jdk-alpine AS build
+# Backend Dockerfile for Spring Boot API (uses official Maven builder)
+FROM maven:3.9.6-jdk-21 AS build
 WORKDIR /workspace
-COPY .mvn/ .mvn/
-COPY mvnw pom.xml ./
+
+# copy only pom first for utilising Docker layer caching
+COPY pom.xml ./
+RUN mvn -B -q dependency:go-offline
+
+# copy sources and build
 COPY src ./src
-RUN chmod +x ./mvnw && ./mvnw -B clean package -DskipTests -DskipDocs
+RUN mvn -B clean package -DskipTests -DskipDocs -DskipITs
 
 FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
