@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -67,7 +68,10 @@ public class SecurityConfig {
             .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
             
             .authorizeHttpRequests(auth -> auth
-                // Public: anyone can hit register/login without a token
+                // Public health and browsing endpoints
+                .requestMatchers(HttpMethod.GET, "/").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/restaurants/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/restaurants/*/menu-items").permitAll()
                 .requestMatchers("/api/auth/**").permitAll()
                 // Everything else requires a valid, authenticated request
                 .anyRequest().authenticated()
