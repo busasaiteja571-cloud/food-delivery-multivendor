@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { menuItemService } from '../services/menuItemService.js';
+import './RestaurantMenuPage.css';
 
 function RestaurantMenuPage() {
   // useParams() reads dynamic segments straight out of the URL, matching

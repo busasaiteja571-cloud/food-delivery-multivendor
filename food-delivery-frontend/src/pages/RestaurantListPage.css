@@ -50,6 +50,11 @@
   text-align: center;
   color: #666;
 }
+
+.error-message {
+  color: #c0392b;
+}
+
 .restaurant-card-header {
   display: flex;
   justify-content: space-between;

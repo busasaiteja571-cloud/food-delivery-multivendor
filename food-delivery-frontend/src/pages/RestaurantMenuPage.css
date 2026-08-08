@@ -5,6 +5,16 @@
   padding-bottom: 6rem; /* leaves room for the fixed cart bar */
 }
 
+.status-message {
+  padding: 2rem;
+  text-align: center;
+  color: #666;
+}
+
+.error-message {
+  color: #c0392b;
+}
+
 .menu-list {
   display: flex;
   flex-direction: column;

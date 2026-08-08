@@ -31,6 +31,7 @@ public class MenuItemService {
         assertOwnership(restaurant, requesterEmail);
 
         MenuItem item = new MenuItem(restaurant, request.name(), request.description(), request.price());
+        item.setImageUrl(request.imageUrl());
         MenuItem saved = menuItemRepository.save(item);
 
         return toResponse(saved);
@@ -49,6 +50,7 @@ public class MenuItemService {
         item.setName(request.name());
         item.setDescription(request.description());
         item.setPrice(request.price());
+        item.setImageUrl(request.imageUrl());
 
         return toResponse(menuItemRepository.save(item));
     }

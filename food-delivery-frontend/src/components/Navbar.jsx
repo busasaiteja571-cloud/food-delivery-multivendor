@@ -22,7 +22,7 @@ function Navbar() {
           <>
             {isAuthenticated && <NotificationBell />}
             {isAuthenticated && <Link to="/my-orders">My Orders</Link>}
-            {user.role === 'ADMIN' && <Link to="/admin">Admin</Link>}
+            {user.role === 'ADMIN' && <Link to="/admin">Admin Dashboard</Link>}
             {user?.role === 'DELIVERY_AGENT' && <Link to="/delivery">Deliveries</Link>}
             {user?.role === 'RESTAURANT_OWNER' && <Link to="/dashboard">Dashboard</Link>}
             <span className="navbar-username">Hi, {user.fullName}</span>

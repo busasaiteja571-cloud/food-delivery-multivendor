@@ -38,6 +38,7 @@ public class RestaurantService {
         }
 
         Restaurant restaurant = new Restaurant(owner, request.name(), request.description(), request.address());
+        restaurant.setImageUrl(request.imageUrl());
         Restaurant saved = restaurantRepository.save(restaurant);
 
         return toResponse(saved);
@@ -57,6 +58,7 @@ public class RestaurantService {
         restaurant.setName(request.name());
         restaurant.setDescription(request.description());
         restaurant.setAddress(request.address());
+        restaurant.setImageUrl(request.imageUrl());
 
         Restaurant updated = restaurantRepository.save(restaurant);
         return toResponse(updated);
