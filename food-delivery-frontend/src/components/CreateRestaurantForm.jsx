@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { restaurantService } from '../services/restaurantService.js';
-
+import './CreateRestaurantForm.css'
 // onCreated: a function PROP, not a hook — this is how a child component
 // notifies its parent that something happened, since state naturally
 // flows down (props) but events need to flow back up (callbacks).
 function CreateRestaurantForm({ onCreated }) {
-  const [formData, setFormData] = useState({ name: '', description: '', address: '' });
+  const [formData, setFormData] = useState({ name: '', description: '', address: '', imageUrl: '' });
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
@@ -47,6 +47,26 @@ function CreateRestaurantForm({ onCreated }) {
         Address
         <input type="text" name="address" value={formData.address} onChange={handleChange} required />
       </label>
+
+      <label>
+        Image URL
+        <input
+          type="url"
+          name="imageUrl"
+          placeholder="https://example.com/photo.jpg"
+          value={formData.imageUrl}
+          onChange={handleChange}
+        />
+      </label>
+      
+      {formData.imageUrl && (
+        <img 
+          src={formData.imageUrl} 
+          alt="Preview" 
+          className="image-preview"
+          onError={(e) => { e.target.style.display = 'none'; }} 
+        />
+      )}
 
       <button type="submit" disabled={submitting}>
         {submitting ? 'Creating...' : 'Create restaurant'}

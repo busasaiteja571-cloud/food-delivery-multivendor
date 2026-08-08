@@ -5,7 +5,7 @@ import com.fooddelivery.food_delivery_backend.model.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.Pattern;
 
 // A `record` is a perfect fit for a DTO: it's an immutable, data-only
 // carrier. No Lombok needed — Java generates the constructor, getters
@@ -20,9 +20,12 @@ public record RegisterRequest(
     @Email(message = "Email must be valid")
     String email,
 
-    @NotBlank(message = "Password is required")
-    @Size(min = 8, message = "Password must be at least 8 characters")
-    String password, // plain text ONLY at this stage — never persisted as-is
+    @NotBlank
+    @Pattern(
+        regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$",
+        message = "Password must be at least 8 characters and include upper, lower case letters and a number"
+    )
+    String password,
 
     String phoneNumber,
 

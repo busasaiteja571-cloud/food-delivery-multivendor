@@ -9,5 +9,6 @@ public record RestaurantRequest(
     String description,
 
     @NotBlank(message = "Address is required")
-    String address
+    String address,
+    String imageUrl
 ) {}

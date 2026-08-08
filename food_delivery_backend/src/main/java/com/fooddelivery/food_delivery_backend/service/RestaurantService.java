@@ -116,7 +116,7 @@ public class RestaurantService {
     // every method that needs to return a RestaurantResponse.
     private RestaurantResponse toResponse(Restaurant r) {
     	return new RestaurantResponse(
-               r.getRestaurantId(), r.getName(), r.getDescription(), r.getAddress(), r.getIsActive()
+               r.getRestaurantId(), r.getName(), r.getDescription(), r.getAddress(), r.getIsActive(),r.getImageUrl()
     			);
     }
 }

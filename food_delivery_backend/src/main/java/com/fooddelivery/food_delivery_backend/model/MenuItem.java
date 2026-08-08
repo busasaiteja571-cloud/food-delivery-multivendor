@@ -18,6 +18,9 @@ public class MenuItem {
 
     @Column(name = "name", nullable = false, length = 150)
     private String name;
+    
+    @Column(name = "image_url", length = 500)
+    private String imageUrl;
 
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
@@ -44,6 +47,8 @@ public class MenuItem {
     public Long getItemId() { return itemId; }
     public Restaurant getRestaurant() { return restaurant; }
     public String getName() { return name; }
+    public String getImageUrl() { return imageUrl; }
+    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
     public String getDescription() { return description; }
     public BigDecimal getPrice() { return price; }
     public Boolean getIsAvailable() { return isAvailable; }

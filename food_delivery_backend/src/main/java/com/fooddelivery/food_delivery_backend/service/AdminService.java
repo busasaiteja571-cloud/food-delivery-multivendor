@@ -32,7 +32,7 @@ public class AdminService {
         // endpoint from Phase 5.
         return restaurantRepository.findAll().stream()
                 .map(r -> new RestaurantResponse(
-                        r.getRestaurantId(), r.getName(), r.getDescription(), r.getAddress(), r.getIsActive()))
+                        r.getRestaurantId(), r.getName(), r.getDescription(), r.getAddress(), r.getIsActive(),r.getImageUrl()))
                 .toList();
     }
 
@@ -49,7 +49,7 @@ public class AdminService {
 
         return new RestaurantResponse(
                 saved.getRestaurantId(), saved.getName(), saved.getDescription(),
-                saved.getAddress(), saved.getIsActive());
+                saved.getAddress(), saved.getIsActive(),saved.getImageUrl());
     }
 
     public List<OrderResponse> getAllOrders() {

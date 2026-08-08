@@ -115,6 +115,14 @@ function RestaurantMenuPage() {
         <div className="menu-list">
           {visibleItems.map((item) => (
             <div key={item.itemId} className="menu-item-row">
+              {item.imageUrl && (
+                <img
+                  src={item.imageUrl}
+                  alt={item.name}
+                  className="menu-item-img"
+                  onError={(e) => { e.target.style.display = 'none'; }}
+                />
+              )}
               <div className="menu-item-info">
                 <h3>{item.name}</h3>
                 {item.description && <p>{item.description}</p>}

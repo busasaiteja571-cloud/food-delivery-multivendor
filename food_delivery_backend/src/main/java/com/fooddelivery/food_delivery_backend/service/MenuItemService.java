@@ -74,7 +74,7 @@ public class MenuItemService {
     private MenuItemResponse toResponse(MenuItem item) {
         return new MenuItemResponse(
                 item.getItemId(), item.getName(), item.getDescription(),
-                item.getPrice(), item.getIsAvailable()
+                item.getPrice(), item.getIsAvailable(),item.getImageUrl()
         );
     }
 }

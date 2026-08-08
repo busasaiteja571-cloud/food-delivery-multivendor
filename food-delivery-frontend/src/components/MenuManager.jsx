@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { menuItemService } from '../services/menuItemService.js';
-
+import './MenuManager.css'
 // restaurantId arrives as a PROP from OwnerDashboardPage — this component
 // doesn't know or care how that ID was discovered, keeping it reusable.
 function MenuManager({ restaurantId }) {
   const [items, setItems] = useState([]);
-  const [formData, setFormData] = useState({ name: '', description: '', price: '' });
+  const [formData, setFormData] = useState({ name: '', description: '', price: '', imageUrl: '' });
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
@@ -35,7 +35,7 @@ function MenuManager({ restaurantId }) {
         ...formData,
         price: parseFloat(formData.price),
       });
-      setFormData({ name: '', description: '', price: '' }); // reset the form
+      setFormData({ name: '', description: '', price: '', imageUrl: '' }); // reset the form
       fetchItems(); // refresh the list to show the new item immediately
     } catch (err) {
       setError(err.response?.data?.error || 'Could not add item.');
@@ -79,6 +79,10 @@ function MenuManager({ restaurantId }) {
         <input
           type="number" name="price" placeholder="Price" step="0.01" min="0.01"
           value={formData.price} onChange={handleChange} required
+        />
+        <input
+          type="url" name="imageUrl" placeholder="Image URL (optional)"
+          value={formData.imageUrl} onChange={handleChange}
         />
 
         <button type="submit" disabled={submitting}>

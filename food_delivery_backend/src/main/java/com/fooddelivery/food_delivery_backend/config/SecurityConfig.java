@@ -1,6 +1,5 @@
 package com.fooddelivery.food_delivery_backend.config;
 
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -18,19 +17,24 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 import com.fooddelivery.food_delivery_backend.security.JwtAuthFilter;
+import com.fooddelivery.food_delivery_backend.security.RateLimitFilter;
 
 // @Configuration marks this class as a source of Spring "beans" —
 // objects Spring creates once and manages for the whole app's lifetime.
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity //activates @PreAuthorize/@PostAuthorize on methods
+@EnableMethodSecurity // Activates @PreAuthorize / @PostAuthorize on methods
 public class SecurityConfig {
 
     private final JwtAuthFilter jwtAuthFilter;
+    private final RateLimitFilter rateLimitFilter; 
 
-    public SecurityConfig(JwtAuthFilter jwtAuthFilter) {
+    public SecurityConfig(JwtAuthFilter jwtAuthFilter, RateLimitFilter rateLimitFilter) {
         this.jwtAuthFilter = jwtAuthFilter;
+        this.rateLimitFilter = rateLimitFilter;
     }
 
     // @Bean tells Spring: "build this object once, keep it in the
@@ -47,12 +51,21 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-        	.cors(cors -> cors.configurationSource(corsConfigurationSource()))
+            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             // CSRF protection is designed for browser cookie-based sessions.
             // We're building a stateless, token-based API — CSRF doesn't
             // apply here, so we disable it.
             .csrf(csrf -> csrf.disable())
-
+            
+            .headers(headers -> headers
+            	    .contentTypeOptions(withDefaults())      // prevents MIME-sniffing attacks
+            	    .frameOptions(frame -> frame.deny())      // prevents this API being embedded in a hidden <iframe> (clickjacking)
+            	)
+            
+            // Register custom filters in the correct execution order
+            .addFilterBefore(rateLimitFilter, UsernamePasswordAuthenticationFilter.class)
+            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+            
             .authorizeHttpRequests(auth -> auth
                 // Public: anyone can hit register/login without a token
                 .requestMatchers("/api/auth/**").permitAll()
@@ -64,22 +77,18 @@ public class SecurityConfig {
             // Every request must prove who it is via its own JWT — the
             // server holds zero memory of "logged in" state between requests.
             .sessionManagement(session ->
-                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-
-            // Insert our custom filter BEFORE Spring's built-in
-            // username/password filter, since we're replacing that
-            // mechanism entirely with JWT-based auth.
-            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         return http.build();
     }
+
     @Value("${app.cors.allowed-origin}")
     private String allowedOrigin;
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         var config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of(allowedOrigin)); // now reads from config, not hardcoded
+        config.setAllowedOrigins(List.of(allowedOrigin)); // Reads from config, not hardcoded
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE"));
         config.setAllowedHeaders(List.of("Authorization", "Content-Type"));
         var source = new UrlBasedCorsConfigurationSource();

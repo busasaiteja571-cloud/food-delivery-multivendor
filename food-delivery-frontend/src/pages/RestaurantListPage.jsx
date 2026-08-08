@@ -28,27 +28,23 @@ function RestaurantListPage() {
     }
   };
 
+  // useEffect for handling debounced search, but skipped on initial mount
   useEffect(() => {
-    // setTimeout schedules the actual fetch to happen 400ms AFTER the
-    // user stops typing — not on every single keystroke. If the user
-    // types another character before 400ms passes, the cleanup function
-    // below cancels the pending timer, and a new one starts.
+    // Skip the debounce fetch on initial load since the empty dependency array effect handles it
+    if (searchTerm === '') return;
+
     const timeoutId = setTimeout(() => {
       fetchRestaurants(searchTerm);
     }, 400);
-    // Cleanup: runs before the NEXT effect execution (i.e., the next
-    // keystroke) OR on unmount. This is what actually implements
-    // "debouncing" — cancelling stale, no-longer-relevant timers.
+
     return () => clearTimeout(timeoutId);
   }, [searchTerm]);
 
   // useEffect with an empty dependency array ([]) means: run this function
-  // exactly ONCE, right after the component first renders — never again
-  // on subsequent re-renders, unlike code in the component body itself,
-  // which would re-run on every single render.
+  // exactly ONCE, right after the component first renders.
   useEffect(() => {
     fetchRestaurants();
-  }, []); // <-- the empty array IS the "only run once" instruction
+  }, []);
 
   if (loading && restaurants.length === 0) {
     return <p className="status-message">Loading restaurants...</p>;
@@ -76,18 +72,20 @@ function RestaurantListPage() {
         <p className="status-message">No restaurants found.</p>
       ) : (
         <div className="restaurant-grid">
-          {/* .map() turns the array of restaurant objects into an array of
-              JSX cards — React renders each one. `key` must be unique and
-              stable per item so React can efficiently track which card is
-              which across re-renders, without re-creating all of them. */}
           {restaurants.map((restaurant) => (
             <Link
               key={restaurant.restaurantId}
               to={`/restaurants/${restaurant.restaurantId}`}
-              // Adds a CSS class when closed, letting us visually dim/grey it
-              // out without removing it from the list entirely.
               className={`restaurant-card ${!restaurant.isActive ? 'restaurant-closed' : ''}`}
             >
+              {restaurant.imageUrl && (
+                <img
+                  src={restaurant.imageUrl}
+                  alt={restaurant.name}
+                  className="restaurant-card-img"
+                  onError={(e) => { e.target.style.display = 'none'; }}
+                />
+              )}
               <div className="restaurant-card-header">
                 <h2>{restaurant.name}</h2>
                 <span className={`status-dot ${restaurant.isActive ? 'open' : 'closed'}`}>

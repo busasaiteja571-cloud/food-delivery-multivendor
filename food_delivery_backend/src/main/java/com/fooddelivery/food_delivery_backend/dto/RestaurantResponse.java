@@ -8,5 +8,6 @@ public record RestaurantResponse(
     String name,
     String description,
     String address,
-    Boolean isActive
+    Boolean isActive,
+    String imageUrl
 ) {}

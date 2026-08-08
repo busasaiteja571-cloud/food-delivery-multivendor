@@ -22,6 +22,9 @@ public class Restaurant {
 
     @Column(name = "name", nullable = false, length = 150)
     private String name;
+    
+    @Column(name = "image_url", length = 500)
+    private String imageUrl;
 
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
@@ -49,6 +52,8 @@ public class Restaurant {
     public Long getRestaurantId() { return restaurantId; }
     public User getOwner() { return owner; }
     public String getName() { return name; }
+    public String getImageUrl() { return imageUrl; }
+    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
     public String getDescription() { return description; }
     public String getAddress() { return address; }
     public Boolean getIsActive() { return isActive; }
